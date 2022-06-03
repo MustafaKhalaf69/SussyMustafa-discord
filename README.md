@@ -6,7 +6,7 @@ install nodejs
 
 configure token and redis key (and prefix) in config.json
 
-run the following:
+run the following in your terminal:
 
 `npm i`
 
