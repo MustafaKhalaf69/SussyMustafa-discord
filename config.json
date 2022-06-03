@@ -1,0 +1,5 @@
+{
+	"prefix": "sm!",
+	"token": "your-bot-token",
+	"redis_key": "redis-url"
+}
