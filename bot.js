@@ -54,7 +54,7 @@ client.on("messageCreate", async (message) => {
     if (numval != null) {
         if (parseInt(msg)) {
             if (math.evaluate(msg) == Number(numval)+1 && Number(useval) != Number(message.member.id)) {
-                redis_client.set(`${message.channel.id}-count`, Number(msg));
+                redis_client.set(`${message.channel.id}-count`, math.evaluate(msg));
                 redis_client.set(`${message.channel.id}-lastuser`, Number(message.member.id));
                 message.react("✅")
             } else {
