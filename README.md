@@ -1,2 +1,9 @@
 # SussyMustafa-V3
-A bot I made because:
+
+How to use:
+
+install nodejs
+
+configure token and redis key (and prefix) in config.json
+
+`node bot.js`
