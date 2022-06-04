@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { response } = require("express");
 const client = new Discord.Client({intents: ["GUILDS", "GUILD_MESSAGES"], ws: { properties: { $browser: "Discord iOS" }}})
 const redis = require("redis")
 const math = require('mathjs')
