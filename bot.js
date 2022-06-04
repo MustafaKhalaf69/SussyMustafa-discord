@@ -100,13 +100,11 @@ async function command(command, message, args) {
     if (command == "count") {
         if (args.length == 0) {
             let value = await redis_client.get(`${message.channel.id}-count`)
-            console.log(value)
             if (value == null) return message.channel.send("This channel isn't a valid counting channel | هذ ليست قناة عد")
             if (value != null) {
                 message.channel.send(`The current number is: **${value}**`)
             }
         } else if (args.length > 0) {
-            console.log(args[0])
             let value = await redis_client.get(`The current number is **${value}**`)
             if (value == null) return message.channel.send("This channel isn't a valid counting channel | هذه ليست قناة عد")
             if (value != null) {
