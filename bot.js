@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { response } = require("express");
 const client = new Discord.Client({intents: ["GUILDS", "GUILD_MESSAGES"], ws: { properties: { $browser: "Discord iOS" }}})
 const redis = require("redis")
 const math = require('mathjs')
@@ -51,17 +52,23 @@ client.on("messageCreate", async (message) => {
     let numval = await redis_client.get(`${message.channel.id}-count`)
     let useval = await redis_client.get(`${message.channel.id}-lastuser`)
     if (numval != null) {
-        if (parseInt(msg)) {
-            if (math.evaluate(msg) == Number(numval)+1 && Number(useval) != Number(message.member.id)) {
-                redis_client.set(`${message.channel.id}-count`, math.evaluate(msg));
-                redis_client.set(`${message.channel.id}-lastuser`, Number(message.member.id));
-                message.react("✅")
+        try {
+            if (parseInt(math.evaluate(msg))) {
+                if (math.evaluate(msg) == Number(numval)+1 && Number(useval) != Number(message.member.id)) {
+                    redis_client.set(`${message.channel.id}-count`, math.evaluate(msg));
+                    redis_client.set(`${message.channel.id}-lastuser`, Number(message.member.id));
+                    message.react("✅")
+                } else {
+                    message.react("❌")
+                    setTimeout(() => message.delete(), 30000)
+                }
             } else {
+                if (msg.startsWith(prefix)) return;
                 message.react("❌")
                 setTimeout(() => message.delete(), 30000)
             }
-        } else {
-            if (msg.startsWith(prefix)) return;
+        } catch(err) {
+            if (msg.startsWith(prefix)) return
             message.react("❌")
             setTimeout(() => message.delete(), 30000)
         }
@@ -100,11 +107,13 @@ async function command(command, message, args) {
     if (command == "count") {
         if (args.length == 0) {
             let value = await redis_client.get(`${message.channel.id}-count`)
+            console.log(value)
             if (value == null) return message.channel.send("This channel isn't a valid counting channel | هذ ليست قناة عد")
             if (value != null) {
                 message.channel.send(`The current number is: **${value}**`)
             }
         } else if (args.length > 0) {
+            console.log(args[0])
             let value = await redis_client.get(`The current number is **${value}**`)
             if (value == null) return message.channel.send("This channel isn't a valid counting channel | هذه ليست قناة عد")
             if (value != null) {
