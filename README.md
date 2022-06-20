@@ -1,4 +1,4 @@
-# SussyMustafa-V3
+# SussyMustafa-discord
 
 How to use:
 
